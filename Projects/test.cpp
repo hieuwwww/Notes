@@ -3,38 +3,6 @@
 #include <iostream>
 #include <vector>
 
-struct CustomTitleBar {
-    sf::RectangleShape background;
-    sf::RectangleShape closeButton;
-    sf::RectangleShape minimizeButton;
-
-    CustomTitleBar(float width, float height) {
-        background.setSize(sf::Vector2f(width, height));
-        background.setFillColor(sf::Color(255, 255, 191, 200)); // Màu nền trong suốt
-        background.setOutlineColor(sf::Color::Black);
-        background.setOutlineThickness(1.f);
-
-        float buttonSize = height * 0.6f;
-        closeButton.setSize(sf::Vector2f(buttonSize, buttonSize));
-        closeButton.setFillColor(sf::Color::Red);
-        closeButton.setOutlineColor(sf::Color::Black);
-        closeButton.setOutlineThickness(1.f);
-        closeButton.setPosition(width - buttonSize * 2.f, (height - buttonSize) / 2.f);
-
-        minimizeButton.setSize(sf::Vector2f(buttonSize, buttonSize));
-        minimizeButton.setFillColor(sf::Color::Green);
-        minimizeButton.setOutlineColor(sf::Color::Black);
-        minimizeButton.setOutlineThickness(1.f);
-        minimizeButton.setPosition(width - buttonSize * 3.5f, (height - buttonSize) / 2.f);
-    }
-
-    void draw(sf::RenderWindow& window) {
-        window.draw(background);
-        window.draw(closeButton);
-        window.draw(minimizeButton);
-    }
-};
-
 const std::string FILE_PREFIX = "sticky_note";
 const std::string FILE_EXTENSION = ".txt";
 const std::string DEFAULT_CONTENT = "Type your note here...";
@@ -68,7 +36,8 @@ void saveNotes(const std::vector<Note>& notes) {
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(400, 400), "Sticky Notes");
+    sf::RenderWindow window(sf::VideoMode(400, 400), "Sticky Notes", sf::Style::None); // Remove the title bar
+    window.setFramerateLimit(60); // Limit the frame rate to reduce CPU usage
     sf::Font font;
     if (!font.loadFromFile("arial.ttf")) {
         std::cerr << "Error loading font\n";
